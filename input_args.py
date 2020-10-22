@@ -11,7 +11,7 @@ def args_input():
     #train
     parser.add_argument('--save_dir', type=str, default='save', help='path for checkpoint saving')
     parser.add_argument('--flower_dir', type=str, default='flowers',help='path for flowers')
-    parser.add_argument('--arc', type=str, default='vgg19',help='path for network architecture')
+    parser.add_argument('--arc', type=str, default='vgg16',help='path for network architecture')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='learning rate')
     parser.add_argument('--hidden_units', type=int, default= 1024 , help='hidden layers')
     parser.add_argument('--epochs', type=int, default=1, help='number of epocs')

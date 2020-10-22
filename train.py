@@ -127,23 +127,7 @@ def get_data_set_loader(data_dir) :
 
 
 
-    data_iter = iter(trainloader)
-    images, labels = data_iter.next()
-
-
-    fig, axes = plt.subplots(figsize=(10,4), ncols=4)
-    for ii in range(4):
-        ax = axes[ii]
-        helper.imshow(images[ii], ax=ax)
-
-    data_iter = iter(testloader)
-    images, labels = data_iter.next()
-
-
-    fig, axes = plt.subplots(figsize=(10,4), ncols=4)
-    for ii in range(4):
-        ax = axes[ii]
-        helper.imshow(images[ii], ax=ax)
+    
         
     return setofdata, dataloader   
 
@@ -157,8 +141,8 @@ def build_model(arch, hidden_units):
   
     
     
-    if arch=='vgg19':
-        model_vgg=models.vgg19(pretrained=True)
+    if arch=='vgg16':
+        model_vgg=models.vgg16(pretrained=True)
         input_size=25088
     elif arch=='alexnet':
         #I had user everywhere as parameter name model_vgg. I see now i have to offer at least 2 models. Refactoring would take time. So because of this im not changing parameter name
@@ -195,8 +179,8 @@ def train_model(model_vgg,optimizer,dataloader, arg_epochs, gpu, save_dir, arg_l
     criterion = nn.NLLLoss()
     if (gpu):
        if torch.cuda.is_available():
-           device= torch.device("cuda:o")
-           print(device)
+           device= torch.device("cuda")
+           print('CUDA is avlb')
        else:
             print("GPU requested for Train but is not avlb!")
             exit()      
@@ -278,7 +262,7 @@ def save_model_to_chkpnt(data_sets,model_vgg, optimizer,device, epochs, save_dir
     torch.save(checkpoint, save_dir +'/'+ 'checkpoint.pth')
     print('model saved to '+' ' +save_dir +'/')
     
-        
+    
 
 
 
