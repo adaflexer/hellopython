@@ -147,14 +147,7 @@ def get_data_set_loader(data_dir) :
         
     return setofdata, dataloader   
 
-def get_cat_to_name_dict(category_names):
-   
-    
-    
-    with open(category_names, 'r') as f:
-        cat_to_name = json.load(f)
-    
-        return cat_to_name
+
 
 
 

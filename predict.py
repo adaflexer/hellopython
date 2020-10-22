@@ -26,7 +26,7 @@ from PIL import Image
 from skimage.transform import resize
 import seaborn as sns
 from input_args import args_input
-from train import get_cat_to_name_dict
+
 from train import load_model
 
 def main():
@@ -39,7 +39,14 @@ def main():
 
     cat_to_name= get_cat_to_name_dict(in_arg.category_names)
 
-
+def get_cat_to_name_dict(category_names):
+   
+    
+    
+    with open(category_names, 'r') as f:
+        cat_to_name = json.load(f)
+    
+        return cat_to_name
 
 
 def predict(image_path, gpu_request, topk, checkpoint_path):
