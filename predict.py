@@ -45,6 +45,7 @@ def main():
 def predict(image_path, gpu_request, topk, checkpoint_path):
     ''' Predict the class (or classes) of an image using a trained deep learning model.
     '''
+    checkpoint_path = checkpoint_path + '/'+ 'checkpoint.pth'
     model_vgg, optimizier = load_model(checkpoint_path)
 
     if gpu_request:
