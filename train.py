@@ -279,21 +279,7 @@ def save_model_to_chkpnt(data_sets,model_vgg, optimizer,device, epochs, save_dir
     print('model saved to '+' ' +save_dir +'/')
     
         
-def load_model(filepath):
-        
-    checkpoint = torch.load(filepath+ '/'+ 'checkpoint.pth')
-    model = models.vgg16(pretrained=True)
-    optimizer=optim.Adam(model.classifier.parameters(), lr=0.001)
-    model.arch = checkpoint['arch']
-    model.class_to_idx = checkpoint['class_to_idx']
-    # classifier has the correct hyperparameter  
-    model.classifier = checkpoint['classifier']
-    model.load_state_dict(checkpoint['state_dict'])
-    model.epochs=checkpoint['epochs']
-    optimizer.load_state_dict(checkpoint['optimizer'])
-    print(model)
-    
-    return model, optimizer
+
 
 
 if __name__=="__main__":

@@ -39,6 +39,24 @@ def main():
 
     cat_to_name= get_cat_to_name_dict(in_arg.category_names)
 
+
+
+def load_model(filepath):
+        
+    checkpoint = torch.load(filepath+ '/'+ 'checkpoint.pth')
+    model = models.vgg16(pretrained=True)
+    optimizer=optim.Adam(model.classifier.parameters(), lr=0.001)
+    model.arch = checkpoint['arch']
+    model.class_to_idx = checkpoint['class_to_idx']
+    # classifier has the correct hyperparameter  
+    model.classifier = checkpoint['classifier']
+    model.load_state_dict(checkpoint['state_dict'])
+    model.epochs=checkpoint['epochs']
+    optimizer.load_state_dict(checkpoint['optimizer'])
+    print(model)
+    
+    return model, optimizer
+
 def get_cat_to_name_dict(category_names):
    
     
