@@ -282,8 +282,8 @@ def save_model_to_chkpnt(data_sets,model_vgg, optimizer,device, epochs, save_dir
               'model_state': model_vgg.state_dict(),
               'optimizer': optimizer.state_dict(),              
               'class_to_idx': model_vgg.class_to_idx}
-    torch.save(checkpoint, save_dir+ 'checkpoint.pth')
-    
+    torch.save(checkpoint, save_dir +'/'+ 'checkpoint.pth')
+    print('model saved to '+' ' +save_dir +'/')
     
         
 def load_model(filepath):
