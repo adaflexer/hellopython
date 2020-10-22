@@ -29,7 +29,6 @@ import seaborn as sns
 
 from input_args import args_input
 import predict
-from predict import predict
 
 def main():
     

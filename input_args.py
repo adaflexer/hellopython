@@ -19,7 +19,7 @@ def args_input():
     
     #predict
     parser.add_argument('--top_k', type=int, default=5, help='the top K most likely classes')
-    parser.add_argument('--category_names', default='', type=str, action='store',help='names of categories')
+    parser.add_argument('--category_names', default='cat_to_name.json', type=str, action='store',help='names of categories')
     parser.add_argument('--image_path', default='flowers', nargs='?', action="store", help='procces this image with predict')
     parser.add_argument('--checkpoint', default='./', nargs='?', action="store", help='path to saved checkpoint')
     
