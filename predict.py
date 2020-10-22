@@ -26,13 +26,19 @@ from PIL import Image
 from skimage.transform import resize
 import seaborn as sns
 from input_args import args_input
-
+from train import get_cat_to_name_dict
 
 def main():
     
     in_arg = args_input()
     
     print(in_arg)
+
+    predict(in_arg.image_path,in_arg.model_vgg, in_arg.gpu, in_arg.topk)
+
+    cat_to_name= get_cat_to_name_dict(in_arg.category_names)
+
+
 
 
 def predict(image_path,model_vgg, gpu_request, topk):

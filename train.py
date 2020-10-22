@@ -61,7 +61,7 @@ def get_image_path(image_path):
     #test_dir= train_dir+ '/1/'
 
     #one_im = next((join(test_dir, f) for f in os.listdir(test_dir) if isfile(join(test_dir, f))), 
-                  "default value here")
+              #    "default value here")
     #lets return one random image
     image_path=""
 
@@ -144,9 +144,11 @@ def get_data_set_loader(data_dir) :
         
     return setofdata, dataloader   
 
-def get_cat_to_name_dict():
+def get_cat_to_name_dict(category_names):
    
-    with open('cat_to_name.json', 'r') as f:
+    
+    
+    with open(category_names, 'r') as f:
         cat_to_name = json.load(f)
     
         return cat_to_name
