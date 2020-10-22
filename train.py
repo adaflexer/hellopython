@@ -202,7 +202,8 @@ def train_model(model_vgg,optimizer,dataloader, arg_epochs, gpu, save_dir, arg_l
     criterion = nn.NLLLoss()
     if (gpu):
        if torch.cuda.is_available():
-           device= torch.cuda.device("cuda:o")
+           device= torch.device("cuda:o")
+           print(device)
        else:
             print("GPU requested for Train but is not avlb!")
             exit()      
