@@ -199,15 +199,15 @@ def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, gpu, s
     criterion = nn.NLLLoss()
     if (gpu):
        if torch.cuda.is_available():
-            torch.cuda.device("cuda:o")
+           device= torch.cuda.device("cuda:o")
        else:
             print("GPU requested for Train but is not avlb!")
             exit()      
     else:
-        torch.cuda.device("cpu")        
+       device= torch.device("cpu")        
 # Only train the classifier parameters, feature parameters are frozen
     optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=arg_learning_rate)
-    device = torch.cuda.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    #device = torch.cuda.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model_vgg.to(device)
     
     print_every = 80
@@ -216,7 +216,7 @@ def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, gpu, s
     start_time= time.time()
     epochs=arg_epochs
     
-    device_selection=device
+    
 
 
 
