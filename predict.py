@@ -27,7 +27,7 @@ from skimage.transform import resize
 import seaborn as sns
 from input_args import args_input
 
-from train import load_model
+
 
 def main():
     
