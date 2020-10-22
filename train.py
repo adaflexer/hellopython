@@ -42,7 +42,7 @@ def main():
     dataset, dataloader= get_data_set_loader(in_arg.flower_dir)
     model, optimizer=build_model(in_arg.arc, in_arg.hidden_units)
 
-    train_model(model, optimizer, dataset[1], dataloader[2],in_arg.epochs, in_arg.gpu, in_arg.save_dir, in_arg.learning_rate)
+    train_model(model, optimizer, dataloader,in_arg.epochs, in_arg.gpu, in_arg.save_dir, in_arg.learning_rate)
     save_model_to_chkpnt( dataset, model, optimizer, in_arg.epocs, in_arg.gpu, in_arg.save_dir)
     #cat_to_name= get_cat_to_name_dict(in_arg.category_names)
     #image_path=get_image_path(in_arg.image_path)
@@ -193,8 +193,11 @@ def build_model(arch, hidden_units):
     
    
 
-def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, gpu, save_dir, arg_learning_rate):
+def train_model(model_vgg,optimizer,dataloader, arg_epochs, gpu, save_dir, arg_learning_rate):
         
+    
+    trainloader=dataloader[1]
+    validloader=dataloader[2]
     #epochs = 1
     criterion = nn.NLLLoss()
     if (gpu):
@@ -204,7 +207,9 @@ def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, gpu, s
             print("GPU requested for Train but is not avlb!")
             exit()      
     else:
-       device= torch.device("cpu")        
+       device= torch.device("cpu") 
+
+    print(device)          
 # Only train the classifier parameters, feature parameters are frozen
     optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=arg_learning_rate)
     #device = torch.cuda.device("cuda:0" if torch.cuda.is_available() else "cpu")
