@@ -193,10 +193,18 @@ def build_model(arch, hidden_units):
     
    
 
-def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, device, save_dir, arg_learning_rate):
+def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, gpu, save_dir, arg_learning_rate):
         
     #epochs = 1
     criterion = nn.NLLLoss()
+    if (gpu):
+       if torch.cuda.is_available():
+            torch.cuda.device("cuda:o")
+       else:
+            print("GPU requested for Train but is not avlb!")
+            exit()      
+    else:
+        torch.cuda.device("cpu")        
 # Only train the classifier parameters, feature parameters are frozen
     optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=arg_learning_rate)
     device = torch.cuda.device("cuda:0" if torch.cuda.is_available() else "cpu")

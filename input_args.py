@@ -15,7 +15,7 @@ def args_input():
     parser.add_argument('--learning_rate', type=float, default=0.01, help='learning rate')
     parser.add_argument('--hidden_units', type=int, default= 1024 , help='hidden layers')
     parser.add_argument('--epochs', type=int, default=1, help='number of epocs')
-    parser.add_argument('--gpu', action='store_true', help='use gpu')
+    parser.add_argument('--gpu', type=bool, default=False,  help=' requesting GPU')
     
     #predict
     parser.add_argument('--top_k', type=int, default=5, help='the top K most likely classes')
