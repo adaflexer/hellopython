@@ -43,7 +43,7 @@ def main():
     model, optimizer=build_model(in_arg.arc, in_arg.hidden_units)
 
     train_model(model, optimizer, dataloader,in_arg.epochs, in_arg.gpu, in_arg.save_dir, in_arg.learning_rate)
-    save_model_to_chkpnt( dataset, model, optimizer, in_arg.epocs, in_arg.gpu, in_arg.save_dir)
+    save_model_to_chkpnt( dataset, model, optimizer, in_arg.epochs, in_arg.gpu, in_arg.save_dir)
     #cat_to_name= get_cat_to_name_dict(in_arg.category_names)
     #image_path=get_image_path(in_arg.image_path)
 
