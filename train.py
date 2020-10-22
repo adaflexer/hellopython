@@ -14,7 +14,6 @@ from torchvision import datasets, transforms, models
 import matplotlib.pyplot as plt
 
 import torch
-
 import random
 
 
@@ -42,14 +41,14 @@ def main():
     
     #load, build ,train, check
     dataset, dataloader= get_data_set_loader(in_arg.flower_dir)
-    model, optimizer=build_model(in_arg.arc, in_arg.hidden_units, in_arg.learning_rate)
+    model, optimizer=build_model(in_arg.arc, in_arg.hidden_units)
 
-    train_model(model, optimizer, dataset[1], dataloader[2],in_arg.epochs, in_arg.gpu)
-    save_model_to_chkpnt(dataset, model, optimizer, in_arg.epocs, in_arg.gpu)
-    
-    image_path=get_image_path(in_arg.image_path)
+    train_model(model, optimizer, dataset[1], dataloader[2],in_arg.epochs, in_arg.gpu, in_arg.save_dir, in_arg.learning_rate)
+    save_model_to_chkpnt( dataset, model, optimizer, in_arg.epocs, in_arg.gpu, in_arg.save_dir)
+    #cat_to_name= get_cat_to_name_dict(in_arg.category_names)
+    #image_path=get_image_path(in_arg.image_path)
 
-    predict(image_path,model, in_arg.gpu, in_arg.top_k)
+    #predict(image_path,model, in_arg.gpu, in_arg.top_k)
     
     #model_chk, optimizier_chk = load_model()
     #predict(model_chk,optimizier_chk )
@@ -160,7 +159,7 @@ def get_cat_to_name_dict(category_names):
 
 
 
-def build_model(arch, hidden_units,learning_rate):
+def build_model(arch, hidden_units):
     
     
   
@@ -189,24 +188,18 @@ def build_model(arch, hidden_units,learning_rate):
     # replace the existing classifier with new one
     model_vgg.classifier=new_classifier
     
-    criterion = nn.NLLLoss()
-    # Only train the classifier parameters, feature parameters are frozen
-    optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=learning_rate)
-   # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    device = torch.cuda.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model_vgg.to(device)
-    print(device)
+    optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=0.001)
 
     return model_vgg, optimizer
     
    
 
-def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, device):
+def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, device, save_dir, arg_learning_rate):
         
     #epochs = 1
     criterion = nn.NLLLoss()
 # Only train the classifier parameters, feature parameters are frozen
-    optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=0.001)
+    optimizer = optim.Adam(model_vgg.classifier.parameters(), lr=arg_learning_rate)
     device = torch.cuda.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model_vgg.to(device)
     
@@ -262,9 +255,9 @@ def train_model(model_vgg,optimizer,trainloader, validloader, arg_epochs, device
                       "Validation Accuracy: {:.3f}".format(accuracy/len(validloader)))        
                     running_loss = 0    
                     model_vgg.train()
-
+                    
         
-def save_model_to_chkpnt(data_sets, model_vgg, optimizer, epochs, device):
+def save_model_to_chkpnt(data_sets,model_vgg, optimizer,device, epochs, save_dir):
     
     train_set=data_sets[0]
     model_vgg.class_to_idx = train_set.class_to_idx
@@ -276,7 +269,7 @@ def save_model_to_chkpnt(data_sets, model_vgg, optimizer, epochs, device):
               'model_state': model_vgg.state_dict(),
               'optimizer': optimizer.state_dict(),              
               'class_to_idx': model_vgg.class_to_idx}
-    torch.save(checkpoint, 'checkpoint.pth')
+    torch.save(checkpoint, save_dir+ 'checkpoint.pth')
     
     
         
