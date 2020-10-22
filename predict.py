@@ -27,6 +27,7 @@ from skimage.transform import resize
 import seaborn as sns
 from input_args import args_input
 from train import get_cat_to_name_dict
+from train import load_model
 
 def main():
     
@@ -34,17 +35,18 @@ def main():
     
     print(in_arg)
 
-    predict(in_arg.image_path,in_arg.model_vgg, in_arg.gpu, in_arg.topk)
+    predict(in_arg.image_path, in_arg.gpu, in_arg.topk, in_arg.checkpoint)
 
     cat_to_name= get_cat_to_name_dict(in_arg.category_names)
 
 
 
 
-def predict(image_path,model_vgg, gpu_request, topk):
+def predict(image_path, gpu_request, topk, checkpoint_path):
     ''' Predict the class (or classes) of an image using a trained deep learning model.
     '''
-    
+    model_vgg, optimizier = load_model(checkpoint_path)
+
     if gpu_request:
         if torch.cuda.is_available(): 
 

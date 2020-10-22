@@ -280,9 +280,9 @@ def save_model_to_chkpnt(data_sets,model_vgg, optimizer,device, epochs, save_dir
     
     
         
-def load_model(in_arg):
+def load_model(filepath):
         
-    checkpoint = torch.load(in_arg['checkpoint'])
+    checkpoint = torch.load(filepath)
     model = models.vgg16(pretrained=True)
     optimizer=optim.Adam(model.classifier.parameters(), lr=0.001)
     model.arch = checkpoint['arch']
@@ -294,7 +294,7 @@ def load_model(in_arg):
     optimizer.load_state_dict(checkpoint['optimizer'])
     print(model)
     
-    return model
+    return model, optimizer
 
 
 if __name__=="__main__":
