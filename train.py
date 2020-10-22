@@ -57,13 +57,18 @@ def main():
 def get_image_path(image_path):
     
 
+    #image_path default is ''flowers'
+    train_dir= image_path+ '/train'
 
+    rn_nmbr= random.randint(1,100)
+    rn_nbr='/'+str(rn_nmbr)+ '/'
+    test_dir= train_dir+rn_nbr
     #test_dir= train_dir+ '/1/'
 
-    #one_im = next((join(test_dir, f) for f in os.listdir(test_dir) if isfile(join(test_dir, f))), 
-              #    "default value here")
+    image_path = next((join(test_dir, f) for f in os.listdir(test_dir) if isfile(join(test_dir, f))), 
+               "default value here")
     #lets return one random image
-    image_path=""
+    
 
     return image_path
 
