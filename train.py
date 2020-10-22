@@ -52,23 +52,6 @@ def main():
     #model_chk, optimizier_chk = load_model()
     #predict(model_chk,optimizier_chk )
 
-def get_image_path(image_path):
-    
-
-    #image_path default is ''flowers'
-    train_dir= image_path+ '/train'
-
-    rn_nmbr= random.randint(1,100)
-    rn_nbr='/'+str(rn_nmbr)+ '/'
-    test_dir= train_dir+rn_nbr
-    #test_dir= train_dir+ '/1/'
-
-    image_path = next((join(test_dir, f) for f in os.listdir(test_dir) if isfile(join(test_dir, f))), 
-               "default value here")
-    #lets return one random image
-    
-
-    return image_path
 
    
 def get_data_set_loader(data_dir) :

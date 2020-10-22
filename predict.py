@@ -28,29 +28,42 @@ import seaborn as sns
 from input_args import args_input
 
 
-
 def main():
     
     in_arg = args_input()
     
     print(in_arg)
-
-    predict(in_arg.image_path, in_arg.gpu, in_arg.topk, in_arg.checkpoint)
+    image_path=get_image_path(in_arg.image_path)
+    predict(image_path, in_arg.gpu, in_arg.topk, in_arg.checkpoint)
 
     cat_to_name= get_cat_to_name_dict(in_arg.category_names)
 
+def get_image_path(image_path):
+    
 
+    #image_path default is ''flowers'
+    train_dir= image_path+ '/train'
+
+    rn_nmbr= random.randint(1,100)
+    rn_nbr='/'+str(rn_nmbr)+ '/'
+    test_dir= train_dir+rn_nbr
+    #test_dir= train_dir+ '/1/'
+
+    image_path = next((join(test_dir, f) for f in os.listdir(test_dir) if isfile(join(test_dir, f))), 
+               "default value here")
+    #lets return one random image
+    
+
+    return image_path    
 
 def load_model(filepath):
         
     checkpoint = torch.load(filepath+ '/'+ 'checkpoint.pth')
-    model = getattr(models, checkpoint['arch'])(pretrained=True)
+    model = models.vgg16(pretrained=True)
     model.classifier = checkpoint['classifier']
-    
     model.arch = checkpoint['arch']
     model.class_to_idx = checkpoint['class_to_idx']
     # classifier has the correct hyperparameter  
-    
     model.load_state_dict(checkpoint['state_dict'])
     model.epochs=checkpoint['epochs']
     optimizer=optim.Adam(model.classifier.parameters(), lr=0.001)
@@ -68,11 +81,9 @@ def get_cat_to_name_dict(category_names):
     
         return cat_to_name
 
-
 def predict(image_path, gpu_request, topk, checkpoint_path):
     ''' Predict the class (or classes) of an image using a trained deep learning model.
     '''
-    checkpoint_path = checkpoint_path + '/'+ 'checkpoint.pth'
     model_vgg, optimizier = load_model(checkpoint_path)
 
     if gpu_request:
@@ -164,27 +175,6 @@ def process_image(image):
         im=(im-mean)/std_dvt
         im = im.transpose((2,0,1))
         return im
-
-def imshow(image, ax=None, title=None):
-        """Imshow for Tensor."""
-        if ax is None:
-            fig, ax = plt.subplots()
-        
-        # PyTorch tensors assume the color channel is the first dimension
-        # but matplotlib assumes is the third dimension
-        image = image.transpose((1, 2, 0))
-        
-        # Undo preprocessing
-        mean = np.array([0.485, 0.456, 0.406])
-        std = np.array([0.229, 0.224, 0.225])
-        image = std * image + mean
-        
-        # Image needs to be clipped between 0 and 1 or it looks like noise when displayed
-        image = np.clip(image, 0, 1)
-        
-        ax.imshow(image)
-        
-        return ax
 
 
 if __name__=="__main__":
